@@ -1,7 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // The `serverExternalPackages` option allows you to opt-out of bundling dependencies in your Server Components.
   serverExternalPackages: ["@sparticuz/chromium", "puppeteer-core"],
+  experimental: {
+    outputFileTracingIncludes: {
+      "/api/screenshot": ["./node_modules/@sparticuz/chromium/**"],
+    },
+  },
 };
 
 export default nextConfig;
