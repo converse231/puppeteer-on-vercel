@@ -55,10 +55,12 @@ export async function GET(request: NextRequest) {
 
     browser = await puppeteer.launch(launchOptions);
     const page = await browser.newPage();
-    await page.goto(parsedUrl.toString(), { 
-      waitUntil: "domcontentloaded",
-      timeout: 60000 
+    await page.goto(parsedUrl.toString(), {
+      waitUntil: "load",
+      timeout: 60000,
     });
+    // Wait for images and dynamic content to load
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     const screenshot = await page.screenshot({ type: "png", fullPage: false });
     return new NextResponse(screenshot, {
       headers: {
