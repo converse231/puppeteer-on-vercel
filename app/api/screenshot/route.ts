@@ -38,9 +38,12 @@ export async function GET(request: NextRequest) {
       puppeteer = await import("puppeteer-core");
       launchOptions = {
         args: chromium.args,
-        defaultViewport: chromium.defaultViewport,
         executablePath: await chromium.executablePath(),
-        headless: chromium.headless,
+        defaultViewport: {
+          width: 1200,
+          height: 800,
+        },
+        headless: true,
       };
     } else {
       puppeteer = await import("puppeteer");
