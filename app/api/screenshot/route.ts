@@ -55,8 +55,11 @@ export async function GET(request: NextRequest) {
 
     browser = await puppeteer.launch(launchOptions);
     const page = await browser.newPage();
-    await page.goto(parsedUrl.toString(), { waitUntil: "networkidle2" });
-    const screenshot = await page.screenshot({ type: "png" });
+    await page.goto(parsedUrl.toString(), { 
+      waitUntil: "domcontentloaded",
+      timeout: 60000 
+    });
+    const screenshot = await page.screenshot({ type: "png", fullPage: false });
     return new NextResponse(screenshot, {
       headers: {
         "Content-Type": "image/png",
