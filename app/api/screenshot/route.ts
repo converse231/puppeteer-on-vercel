@@ -30,21 +30,23 @@ export async function GET(request: NextRequest) {
   let browser;
   try {
     const isVercel = !!process.env.VERCEL_ENV;
-    let puppeteer: any,
-      launchOptions: any = {
-        headless: true,
-      };
+    let puppeteer: any;
+    let launchOptions: any;
 
     if (isVercel) {
       const chromium = (await import("@sparticuz/chromium")).default;
       puppeteer = await import("puppeteer-core");
       launchOptions = {
-        ...launchOptions,
         args: chromium.args,
+        defaultViewport: chromium.defaultViewport,
         executablePath: await chromium.executablePath(),
+        headless: chromium.headless,
       };
     } else {
       puppeteer = await import("puppeteer");
+      launchOptions = {
+        headless: true,
+      };
     }
 
     browser = await puppeteer.launch(launchOptions);
